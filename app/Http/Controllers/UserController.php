@@ -27,34 +27,40 @@ class UserController extends Controller
     public function create()
     {
         if (input::get('signUpPw') == input::get('signUpPw2')) {
-            if (!empty(User::all()->where('username', '=', Input::get('signUpMail')))) {
+            $user = User::all()->where('username', Input::get('signUpMail'))->first();
+            if (empty($user->username)) {
                 $newUser = new User();
                 $newUser->username = input::get('signUpMail');
                 $newUser->password = md5(input::get('signUpPw'));
                 $newUser->save();
+                header("Location: login");
+                die();
             } else {
                 //ERROR: user existiert bereits
-
+                header("Location: signup");
+                die();
             }
         } else {
             //ERROR: passwörter stimmen nicht Überein
+            header("Location: signup");
+            die();
         }
-        return view('login');
     }
 
 
     public function login()
     {
-        $user = User::all()->where('username', '=', Input::get('loginMail'));
-        if($user->password == input::get('loginMail')){
-            session_regenerate_id();
-            $_SESSION['email'] = input::get('loginMail');
-            $_SESSION['uid'] = $user->id;
-        }
-        else{
+        $user = User::all()->where('username', '=', Input::get('loginMail'))->first();
+        echo $user;
+        if(empty($user->password)){
             //ERROR: es existiert noch kein benutzer mit diesem usernamen oder passwort stimmt nicht überein
             //Benutzerangaben falsch
             echo 'falsch';
+        }
+        elseif($user->password == md5(input::get('loginPw'))){
+            session_regenerate_id();
+            $_SESSION['email'] = input::get('loginMail');
+            $_SESSION['userid'] = $user->id;
         }
     }
 
