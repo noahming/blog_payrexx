@@ -27,13 +27,14 @@ class UserController extends Controller
     public function create()
     {
         if (input::get('signUpPw') == input::get('signUpPw2')) {
-            if (!User::all()->where('username', '=', Input::get('signUpMail'))) {
+            if (!empty(User::all()->where('username', '=', Input::get('signUpMail')))) {
                 $newUser = new User();
                 $newUser->username = input::get('signUpMail');
                 $newUser->password = md5(input::get('signUpPw'));
                 $newUser->save();
             } else {
                 //ERROR: user existiert bereits
+
             }
         } else {
             //ERROR: passwörter stimmen nicht Überein
@@ -44,17 +45,16 @@ class UserController extends Controller
 
     public function login()
     {
-        $user = new User;
         $user = User::all()->where('username', '=', Input::get('loginMail'));
         if($user->password == input::get('loginMail')){
             session_regenerate_id();
             $_SESSION['email'] = input::get('loginMail');
-            $user = userByEmail($mysqli,$email);
-            $_SESSION['uid'] = $user[0]['id'];
+            $_SESSION['uid'] = $user->id;
         }
         else{
             //ERROR: es existiert noch kein benutzer mit diesem usernamen oder passwort stimmt nicht überein
             //Benutzerangaben falsch
+            echo 'falsch';
         }
     }
 

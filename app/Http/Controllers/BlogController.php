@@ -40,19 +40,21 @@ class BlogController extends Controller
         $newBlog->save();
 
         if ($request->file('image')->isValid()) {
-            echo'xx';
             $newImage = new Image();
             $newImage->blog_id = $newBlog->id;
             $newImage->filename = pathinfo(Input::file('image'), PATHINFO_FILENAME);
             $newImage->image_type = pathinfo(Input::file('image'), PATHINFO_EXTENSION);
 
             $newImage->save();
-            $request->file('image')->move("C:/xampp/htdocs/blog_payrexx/blog/storage/images/", $newImage->filename);
+            $request->file('image')->move(storage_path("app/public/images/", $newImage->filename));
+            //als ich pfad mit asset zusammenstellen wollte ERROR "unable to create the "http://localhost/blog_payrexx/blog/public/images" directory
         }
         else {
 
         }
-
+        header("Location: home");
+        die();
+        //return view('home');
         //$newImage->bild_typ = ;
         /*if (array_key_exists('img', $_FILES)) {
 
