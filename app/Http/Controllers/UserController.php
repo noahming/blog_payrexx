@@ -51,17 +51,25 @@ class UserController extends Controller
     public function login()
     {
         $user = User::all()->where('username', '=', Input::get('loginMail'))->first();
-        echo $user;
-        if(empty($user->password)){
+        if (empty($user->password)) {
             //ERROR: es existiert noch kein benutzer mit diesem usernamen oder passwort stimmt nicht überein
             //Benutzerangaben falsch
-            echo 'falsch';
+        } elseif ($user->password == md5(input::get('loginPw'))) {
+/*            session_regenerate_id();
+            $_SESSION['username'] = input::get('loginMail');
+            $_SESSION['userid'] = $user->id;*/
+            header("Location: home");
+            die();
         }
-        elseif($user->password == md5(input::get('loginPw'))){
-            session_regenerate_id();
-            $_SESSION['email'] = input::get('loginMail');
-            $_SESSION['userid'] = $user->id;
-        }
+    }
+
+    /**
+     *
+     */
+    public function logout(){
+        //session_destroy();
+        header("Location: home");
+        die();
     }
 
     /**

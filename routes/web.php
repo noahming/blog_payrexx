@@ -11,28 +11,28 @@
 |
 */
 
-Route::get('/login', function () {
+Route::get('login', function () {
     return view('login');
-});
-Route::post('/login', 'UserController@login');
+})->name('login');
+Route::post('login', 'UserController@login');
+Route::post('logout', 'UserController@logout');
 
-Route::get('/signup', function () {
+Route::get('signup', function () {
     return view('signup');
-});
-Route::post('/signup', 'UserController@create');
+})->name('signup');
+Route::post('signup', 'UserController@create');
 
-Route::get('/new', function () {
+Route::get('new', function () {
     return view('new');
-});
-Route::post('/new', 'BlogController@create');
+})->name('new');
+Route::post('new', 'BlogController@create');
 
-Route::get('/', function () {
+Route::get('/', function(){
     return view('home');
-});
+})->name('home');
 
-Route::get('home', function () {
+Route::get('home', function(){
     return view('home');
-});
-Route::get('blog', function () {
-    return view('blog');
-});
+})->name('home');
+
+Route::get('/post/{ID}', 'BlogController@show');
