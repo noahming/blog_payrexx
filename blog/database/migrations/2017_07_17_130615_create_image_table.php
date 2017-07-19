@@ -13,12 +13,12 @@ class CreateImageTable extends Migration
      */
     public function up()
     {
-        Schema::create('image', function (Blueprint $table) {
-            $table->integer('id')->primary();
-            $table->integer('blog_id');
-            $table->foreign('blog_id')->references('id')->on('blog')->onDelete('cascade');
-            $table->string('directory');
-            $table->string('bild_typ');
+        Schema::create('images', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('blog_id')->unsigned();
+            $table->foreign('blog_id')->references('id')->on('blogs')->onDelete('cascade');
+            $table->string('filename');
+            $table->string('image_type');
             $table->timestamps();
         });
     }

@@ -9,4 +9,6 @@ class Blog extends Model
 {
     use Notifiable;
     protected $fillable = array('user_id', 'title', 'desc_short', 'desc_long', 'date');
+
+    
 }

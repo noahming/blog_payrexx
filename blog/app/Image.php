@@ -9,5 +9,5 @@ class Image extends Model
 {
     use Notifiable;
 
-    protected $fillable = array('blog_id', 'directory', 'typ');
+    protected $fillable = array('blog_id', 'directory', 'image_typ');
 }
