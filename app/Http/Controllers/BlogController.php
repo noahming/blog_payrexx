@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Blog;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
@@ -67,10 +68,10 @@ class BlogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request)
+    public function show(Request $request, $id)
     {
-        echo $request->segment(2);
-        return view('post');
+        $blog = Blog::all()->where('id', $id)->first();
+        return view('post', ['blog' => $blog]);
     }
 
     /**
